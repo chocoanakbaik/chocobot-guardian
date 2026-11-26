@@ -3,7 +3,7 @@
 
   var apiBaseInput = document.getElementById("api-base");
   var tokenInput = document.getElementById("api-token");
-  var connectForm = document.getElementById("connect-form");
+  var connectButton = document.getElementById("connect-agent");
   var connectLabel = document.getElementById("connection-label");
   var connectDot = document.getElementById("connection-dot");
   var logRoot = document.getElementById("activity-log");
@@ -84,6 +84,11 @@
       log("Alamat agent harus menggunakan loopback port 8765 melalui SSH tunnel.", "error");
       return;
     }
+    if (!token) {
+      log("Masukkan token akses agent terlebih dahulu.", "error");
+      tokenInput.focus();
+      return;
+    }
     request("/health", "GET").then(function (data) {
       if (data.authRequired && !token) throw new Error("Agent meminta token akses.");
       connected = true;
@@ -132,10 +137,7 @@
     });
   }
 
-  connectForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    connect();
-  });
+  connectButton.addEventListener("click", connect);
   document.getElementById("disconnect").addEventListener("click", function () {
     setConnected(false, "Koneksi diputus");
     token = "";
