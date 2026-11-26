@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10100f">
+  <title>TCS Control Center</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="The Choco Studios">
+        <span class="brand-mark">TC</span>
+        <span class="brand-copy"><strong>THE CHOCO STUDIOS</strong><small>CONTROL CENTER</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Navigasi utama">
+        <a class="nav-item active" href="#overview">Ringkasan</a>
+        <a class="nav-item" href="#remote">Kendali ASUS</a>
+        <a class="nav-item" href="#choco-ai">Choco AI</a>
+        <a class="nav-item" href="#activity">Aktivitas</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <span class="eyebrow">PRIVATE INFRASTRUCTURE</span>
+        <span class="muted">Toshiba sebagai pusat kendali</span>
+        <span class="muted">ASUS sebagai node lokal</span>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">THE CHOCO STUDIOS / INTERNAL SYSTEM</span>
+          <h1>TCS Control Center</h1>
+        </div>
+        <div class="topbar-status">
+          <span id="connection-dot" class="status-dot offline"></span>
+          <span id="connection-label">ASUS belum terhubung</span>
+        </div>
+      </header>
+
+      <section id="overview" class="section">
+        <div class="section-heading">
+          <div><span class="eyebrow">OVERVIEW</span><h2>Ringkasan sistem</h2></div>
+          <button id="refresh-status" class="button button-quiet" type="button">Perbarui status</button>
+        </div>
+
+        <div class="connect-panel panel">
+          <div class="connect-copy">
+            <span class="eyebrow">REMOTE AGENT</span>
+            <h3>Hubungkan node ASUS</h3>
+            <p>Dashboard ini menggunakan jalur lokal melalui SSH tunnel. Alamat dan token hanya disimpan di sesi browser ini.</p>
+          </div>
+          <form id="connect-form" class="connect-form">
+            <label for="api-base">Alamat agent lokal</label>
+            <input id="api-base" name="api-base" type="url" value="http://127.0.0.1:8765" autocomplete="off" spellcheck="false" required>
+            <label for="api-token">Token akses agent</label>
+            <input id="api-token" name="api-token" type="password" placeholder="Masukkan token dari konfigurasi agent" autocomplete="off">
+            <div class="form-actions">
+              <button class="button button-primary" type="submit">Hubungkan</button>
+              <button id="disconnect" class="button button-quiet" type="button">Putuskan</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="metrics-grid">
+          <article class="metric-card panel">
+            <span class="metric-label">NODE</span>
+            <strong id="metric-host" class="metric-value">Belum diketahui</strong>
+            <span id="metric-os" class="metric-note">Menunggu koneksi agent</span>
+          </article>
+          <article class="metric-card panel">
+            <span class="metric-label">CPU</span>
+            <strong id="metric-cpu" class="metric-value">--</strong>
+            <span id="metric-cpu-name" class="metric-note">Belum ada data</span>
+          </article>
+          <article class="metric-card panel">
+            <span class="metric-label">MEMORI</span>
+            <strong id="metric-memory" class="metric-value">--</strong>
+            <span id="metric-memory-note" class="metric-note">Belum ada data</span>
+          </article>
+          <article class="metric-card panel">
+            <span class="metric-label">CHOCO AI</span>
+            <strong id="metric-ai" class="metric-value">Belum aktif</strong>
+            <span id="metric-ai-note" class="metric-note">Runtime belum terhubung ke dashboard</span>
+          </article>
+        </div>
+      </section>
+
+      <section id="remote" class="section">
+        <div class="section-heading">
+          <div><span class="eyebrow">REMOTE OPERATIONS</span><h2>Kendali ASUS</h2></div>
+          <span class="section-caption">Aksi terbatas dan terverifikasi</span>
+        </div>
+        <div class="remote-grid">
+          <article class="panel control-card">
+            <div class="card-heading"><h3>Layar</h3><span class="pill">DISPLAY</span></div>
+            <p>Meminta Windows pada sesi desktop ASUS mengubah keadaan layar.</p>
+            <div class="button-row">
+              <button class="button action-button" data-action="screen/off" type="button" disabled>Matikan layar</button>
+              <button class="button action-button" data-action="screen/on" type="button" disabled>Nyalakan layar</button>
+            </div>
+          </article>
+          <article class="panel control-card">
+            <div class="card-heading"><h3>Jendela aplikasi</h3><span class="pill">WINDOWS</span></div>
+            <p>Daftar jendela dan kontrol jendela aktif di sesi desktop ASUS.</p>
+            <div class="button-row">
+              <button id="list-windows" class="button action-button" type="button" disabled>Lihat window</button>
+              <button class="button action-button" data-action="windows/minimize-active" type="button" disabled>Minimalkan</button>
+              <button class="button action-button" data-action="windows/maximize-active" type="button" disabled>Maksimalkan</button>
+              <button class="button button-danger action-button" data-action="windows/close-active" type="button" disabled>Tutup window aktif</button>
+            </div>
+            <div id="window-list" class="window-list"><span class="muted">Belum ada daftar jendela.</span></div>
+          </article>
+          <article class="panel control-card">
+            <div class="card-heading"><h3>Status perangkat</h3><span class="pill">SYSTEM</span></div>
+            <p>Informasi dasar perangkat yang dilaporkan remote agent.</p>
+            <div class="button-row">
+              <button id="check-system" class="button action-button" type="button" disabled>Cek sistem</button>
+              <button id="check-ram" class="button action-button" type="button" disabled>Cek RAM</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="choco-ai" class="section">
+        <div class="section-heading">
+          <div><span class="eyebrow">TCS PRIVATE INTELLIGENCE</span><h2>Choco AI</h2></div>
+          <span class="pill pill-muted">LOCAL MODEL / BELUM TERHUBUNG</span>
+        </div>
+        <article class="panel ai-panel">
+          <div class="ai-symbol">C</div>
+          <div>
+            <h3>Choco AI Core sedang dalam tahap pengembangan</h3>
+            <p>Model Qwen lokal sudah berhasil diuji melalui CLI. API percakapan, TCS Knowledge Engine, Scope Guard, dan Memory Manager belum terpasang. Chat tidak diaktifkan sampai komponen tersebut tersedia dan lolos pengujian.</p>
+          </div>
+        </article>
+      </section>
+
+      <section id="activity" class="section">
+        <div class="section-heading">
+          <div><span class="eyebrow">ACTIVITY</span><h2>Catatan aktivitas</h2></div>
+          <button id="clear-log" class="button button-quiet" type="button">Bersihkan tampilan</button>
+        </div>
+        <div id="activity-log" class="panel activity-log" aria-live="polite">
+          <div class="log-entry"><time>LOCAL</time><span>Dashboard dimuat. Belum ada koneksi ke ASUS.</span></div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>THE CHOCO STUDIOS</span>
+        <span>Control Center • tahap fondasi</span>
+      </footer>
+    </main>
+  </div>
+  <script src="./app.js" defer></script>
+</body>
+</html>
