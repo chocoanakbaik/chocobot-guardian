@@ -226,11 +226,11 @@ Tanggal pembaruan: 26 November 2026.
   - `control-center/styles.css` — gaya responsif gelap dengan aksen champagne gold.
   - `control-center/app.js` — klien awal untuk status, koneksi, daftar window, dan aksi allowlist.
   - `docs/CONTROL-CENTER-API.md` — kontrak agent, endpoint, pola SSH tunnel, dan aturan keamanan.
-- Dashboard mengasumsikan agent lokal di loopback Toshiba port 8765 melalui SSH tunnel. Agent belum dibuat; karena itu tombol aksi nonaktif dan dashboard belum boleh dianggap sebagai aplikasi operasional.
-- API yang direncanakan tidak menyediakan eksekusi shell bebas. Remote Agent harus berjalan pada sesi desktop interaktif ASUS karena sesi SSH tidak dapat mengelola semua jendela GUI secara langsung.
+- Dashboard mengasumsikan agent lokal pada ASUS di loopback port 8765 melalui SSH tunnel. Saat catatan awal ditulis, agent belum dibuat; source agent kini telah ditambahkan pada catatan perkembangan berikutnya.
+- API tidak menyediakan eksekusi shell bebas. Remote Agent harus berjalan pada sesi desktop interaktif ASUS karena sesi SSH tidak dapat mengelola semua jendela GUI secara langsung.
 - Token agent, alamat jaringan privat, password, dan kredensial tidak dimasukkan ke GitHub.
 
-**Langkah berikutnya:** implementasi dan pengujian TCS Remote Agent Windows, lalu skrip pembuka tunnel di Toshiba. Setelah kontrol sistem dasar teruji, sambungkan `llama-server` dan lanjut ke TCS Identity, Scope Guard, serta Knowledge Engine.
+**Langkah berikutnya:** kompilasi, pemasangan, dan pengujian TCS Remote Agent Windows pada ASUS. Setelah kontrol sistem dasar teruji, sambungkan `llama-server` dan lanjut ke TCS Identity, Scope Guard, serta Knowledge Engine.
 
 
 ## Catatan perkembangan — Remote Agent Windows
