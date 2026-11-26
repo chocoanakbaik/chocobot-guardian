@@ -92,10 +92,14 @@ OpenSSH menjalankan proses pada sesi non-interaktif yang terpisah dari desktop. 
 - [x] UI menggunakan allowlist endpoint dan tidak membentuk command shell bebas.
 - [x] Tombol aksi nonaktif saat agent belum terhubung.
 - [x] Token hanya disimpan di memori halaman, bukan localStorage.
-- [ ] Implementasikan agent PowerShell/.NET untuk Windows 10.
-- [ ] Buat installer agent dan tugas otomatis saat user login.
-- [ ] Terapkan URL ACL atau listener loopback yang tidak memerlukan hak admin berlebih.
-- [ ] Implementasikan autentikasi, CORS, dan validasi input di agent.
-- [ ] Buat skrip pembuka tunnel di Toshiba.
+- [x] Implementasi awal Windows Remote Agent ditulis dalam C#/.NET Framework, menggunakan listener TCP loopback dan API allowlist.
+- [x] Agent menyediakan status perangkat, daftar jendela, aksi layar, dan aksi jendela aktif.
+- [x] Token acak 256-bit dibuat secara lokal dan disimpan di config; token tidak ditulis ke Git.
+- [x] Installer awal disiapkan untuk mengunduh berkas, mengompilasi agent, serta mendaftarkan Scheduled Task interaktif saat logon.
+- [x] Skrip pembuka SSH tunnel di Toshiba disiapkan.
+- [ ] Kompilasi di ASUS belum dijalankan; ketersediaan C# compiler .NET Framework perlu dikonfirmasi.
+- [ ] Uji Task Scheduler dan pastikan agent benar-benar berjalan di sesi desktop interaktif.
+- [ ] Uji autentikasi token, status sistem, daftar window, layar mati/nyala, dan tutup window aktif di ASUS.
+- [ ] Jalankan audit keamanan dan penanganan edge case sebelum pemakaian harian.
 - [ ] Jalankan uji fungsi nyata pada ASUS: status, list window, monitor off/on, dan close active.
 - [ ] Lakukan audit keamanan sebelum dipakai pada jaringan bersama.
