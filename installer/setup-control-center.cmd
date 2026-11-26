@@ -43,7 +43,7 @@ if not exist "%CSC%" (
 
 echo.
 echo [3/5] Mengompilasi Remote Agent...
-"%CSC%" /nologo /optimize+ /target:exe /platform:anycpu /r:System.Web.Extensions.dll /out:"%AGENT%\TCSRemoteAgent.exe" "%AGENT%\TCSRemoteAgent.cs"
+"%CSC%" /nologo /optimize+ /target:winexe /platform:anycpu /r:System.Web.Extensions.dll /out:"%AGENT%\TCSRemoteAgent.exe" "%AGENT%\TCSRemoteAgent.cs"
 if errorlevel 1 (
   echo Kompilasi gagal. Log error di atas perlu diperiksa.
   exit /b 3
