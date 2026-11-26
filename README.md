@@ -111,15 +111,17 @@ Sumber unduhan model yang digunakan pada tahap uji adalah repositori GGUF di Hug
 
 ### Tahap 1 — TCS Control Center
 - [x] Membuat cangkang dashboard grafis responsif di `control-center/` dengan identitas visual TCS.
-- [x] Membuat klien UI awal untuk koneksi agent, ringkasan perangkat, daftar window, dan perintah bahasa Indonesia berbasis allowlist.
+- [x] Membuat klien UI awal untuk status, koneksi agent, daftar window, dan aksi bahasa Indonesia berbasis allowlist.
 - [x] Mendokumentasikan kontrak API dan pola loopback melalui SSH tunnel di `docs/CONTROL-CENTER-API.md`.
-- [ ] Mengimplementasikan Remote Agent Windows yang berjalan pada sesi desktop interaktif.
-- [ ] Mengamankan listener agent dengan token lokal, CORS terbatas, dan validasi request.
-- [ ] Membuat skrip pembuka SSH tunnel dan dashboard di Toshiba.
-- [ ] Menjalankan uji fungsi nyata pada ASUS untuk status, daftar window, layar mati/nyala, dan tutup window aktif.
+- [x] Menulis source Windows Remote Agent di `agent/TCSRemoteAgent.cs`.
+- [x] Membuat installer awal di `installer/setup-control-center.cmd`.
+- [x] Membuat launcher Toshiba di `installer/open-control-center-toshiba.cmd`.
+- [ ] Mengonfirmasi compiler C# tersedia dan mengompilasi agent di ASUS.
+- [ ] Memastikan Scheduled Task menjalankan agent pada sesi desktop interaktif.
+- [ ] Menguji token, status sistem, daftar window, layar mati/nyala, dan tutup window aktif pada ASUS.
 - [ ] Menampilkan status disk, suhu jika sensor tersedia, dan pemantauan layanan secara akurat.
 
-**Status implementasi tahap ini:** UI dan kontrak API sudah ditulis di branch `feature/tcs-control-center`, tetapi belum dijalankan pada Toshiba dan belum terhubung ke Remote Agent. Tombol kontrol tetap nonaktif saat agent tidak tersedia; tidak ada klaim bahwa kontrol GUI sudah berfungsi.
+**Status implementasi tahap ini:** UI, kontrak API, source agent, installer, dan launcher sudah tersedia di branch `feature/tcs-control-center`. Agent belum dikompilasi atau dijalankan pada ASUS; tombol kontrol belum boleh dianggap berfungsi sampai pengujian perangkat lulus.
 
 ### Tahap 2 — Layanan Choco AI lokal
 - [ ] Menguji llama-server.exe pada konfigurasi memori konservatif.
