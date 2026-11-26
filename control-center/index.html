@@ -51,16 +51,16 @@
             <h3>Hubungkan node ASUS</h3>
             <p>Dashboard ini menggunakan jalur lokal melalui SSH tunnel. Alamat dan token hanya disimpan di sesi browser ini.</p>
           </div>
-          <form id="connect-form" class="connect-form">
+          <div id="connect-form" class="connect-form">
             <label for="api-base">Alamat agent lokal</label>
             <input id="api-base" name="api-base" type="url" value="http://127.0.0.1:8765" autocomplete="off" spellcheck="false" required>
             <label for="api-token">Token akses agent</label>
             <input id="api-token" name="api-token" type="password" placeholder="Masukkan token dari konfigurasi agent" autocomplete="off">
             <div class="form-actions">
-              <button class="button button-primary" type="submit">Hubungkan</button>
+              <button id="connect-agent" class="button button-primary" type="button">Hubungkan</button>
               <button id="disconnect" class="button button-quiet" type="button">Putuskan</button>
             </div>
-          </form>
+          </div>
         </div>
 
         <div class="metrics-grid">
