@@ -231,3 +231,23 @@ Tanggal pembaruan: 26 November 2026.
 - Token agent, alamat jaringan privat, password, dan kredensial tidak dimasukkan ke GitHub.
 
 **Langkah berikutnya:** implementasi dan pengujian TCS Remote Agent Windows, lalu skrip pembuka tunnel di Toshiba. Setelah kontrol sistem dasar teruji, sambungkan `llama-server` dan lanjut ke TCS Identity, Scope Guard, serta Knowledge Engine.
+
+
+## Catatan perkembangan — Remote Agent Windows
+
+Tanggal pembaruan: 26 November 2026.
+
+Berkas tambahan di branch `feature/tcs-control-center`:
+
+- `agent/TCSRemoteAgent.cs` — source agent .NET Framework dengan listener TCP yang hanya bind ke loopback `127.0.0.1:8765`, token acak lokal, API status perangkat, daftar window, dan allowlist aksi layar/window.
+- `installer/setup-control-center.cmd` — installer satu kali yang mengunduh source dan aset dashboard, mencoba mengompilasi agent menggunakan C# compiler .NET Framework bawaan, mendaftarkan Scheduled Task interaktif saat logon, menjalankan agent, dan menampilkan token lokal untuk dimasukkan ke dashboard.
+- `installer/open-control-center-toshiba.cmd` — launcher Toshiba yang menyimpan target SSH secara lokal, membuat local SSH tunnel, menunggu endpoint health, lalu membuka dashboard di browser.
+
+**Belum diuji pada perangkat:** kompilasi C# di ASUS, kompatibilitas Scheduled Task pada sesi Windows pengguna, listener HTTP, token, enumerasi jendela, kontrol monitor, dan kontrol jendela. Installer harus dianggap sebagai tahap uji perangkat, bukan bukti agent sudah berjalan.
+
+Catatan implementasi keamanan:
+- Agent bind ke loopback saja; akses Toshiba dirancang melalui SSH port-forward.
+- API tidak menyediakan eksekusi shell arbitrer.
+- Token dibuat pada perangkat dan tidak disimpan di repository.
+- Dashboard statis disajikan oleh agent melalui tunnel sehingga tidak memerlukan CORS lintas origin.
+- Remote Agent dirancang berjalan sebagai proses pengguna interaktif, bukan layanan Windows, karena operasi GUI harus berada pada sesi desktop yang benar.
