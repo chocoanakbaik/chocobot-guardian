@@ -51,7 +51,7 @@ if errorlevel 1 (
 
 echo.
 echo [4/5] Mendaftarkan agent agar berjalan saat akun Windows login...
-schtasks /Create /SC ONLOGON /TN "TCS Choco AI Remote Agent" /TR "\"%AGENT%\TCSRemoteAgent.exe\"" /IT /F
+schtasks /Create /SC ONLOGON /TN "TCS Choco AI Remote Agent" /TR "%AGENT%\TCSRemoteAgent.exe" /IT /F
 if errorlevel 1 (
   echo Pendaftaran Task Scheduler gagal.
   echo Agent sudah dikompilasi, tetapi belum disetel auto-start.
