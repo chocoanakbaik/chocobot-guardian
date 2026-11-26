@@ -110,13 +110,16 @@ Sumber unduhan model yang digunakan pada tahap uji adalah repositori GGUF di Hug
 ## Yang akan dikerjakan selanjutnya
 
 ### Tahap 1 — TCS Control Center
-- [ ] Membangun dashboard grafis yang dibuka dari Toshiba; CMD hanya menjadi mekanisme teknis di belakang layar.
-- [ ] Menampilkan status ASUS, koneksi, CPU, RAM, disk, suhu jika sensor tersedia, dan status runtime AI.
-- [ ] Menyediakan status SSH dan tindakan sambung ulang.
-- [ ] Menyediakan kontrol layar, daftar jendela, minimalkan, maksimalkan, dan tutup jendela dengan konfirmasi.
-- [ ] Menyediakan perintah bahasa Indonesia seperti "matikan layar", "cek sistem", dan "lihat window".
-- [ ] Menggunakan daftar aksi yang diizinkan, bukan membuka eksekusi shell bebas dari dashboard.
-- [ ] Membuat Remote Agent yang berjalan pada sesi desktop Windows yang benar; SSH saja tidak cukup untuk semua operasi GUI karena sesi SSH terpisah dari desktop interaktif.
+- [x] Membuat cangkang dashboard grafis responsif di `control-center/` dengan identitas visual TCS.
+- [x] Membuat klien UI awal untuk koneksi agent, ringkasan perangkat, daftar window, dan perintah bahasa Indonesia berbasis allowlist.
+- [x] Mendokumentasikan kontrak API dan pola loopback melalui SSH tunnel di `docs/CONTROL-CENTER-API.md`.
+- [ ] Mengimplementasikan Remote Agent Windows yang berjalan pada sesi desktop interaktif.
+- [ ] Mengamankan listener agent dengan token lokal, CORS terbatas, dan validasi request.
+- [ ] Membuat skrip pembuka SSH tunnel dan dashboard di Toshiba.
+- [ ] Menjalankan uji fungsi nyata pada ASUS untuk status, daftar window, layar mati/nyala, dan tutup window aktif.
+- [ ] Menampilkan status disk, suhu jika sensor tersedia, dan pemantauan layanan secara akurat.
+
+**Status implementasi tahap ini:** UI dan kontrak API sudah ditulis di branch `feature/tcs-control-center`, tetapi belum dijalankan pada Toshiba dan belum terhubung ke Remote Agent. Tombol kontrol tetap nonaktif saat agent tidak tersedia; tidak ada klaim bahwa kontrol GUI sudah berfungsi.
 
 ### Tahap 2 — Layanan Choco AI lokal
 - [ ] Menguji llama-server.exe pada konfigurasi memori konservatif.
@@ -206,6 +209,25 @@ Sumber unduhan model yang digunakan pada tahap uji adalah repositori GGUF di Hug
 ## Status keseluruhan
 
 **Fondasi perangkat dan inferensi lokal: berhasil diuji.**  
-**Identitas, pengetahuan TCS, memori belajar, kendali grafis, API layanan, dan publikasi: belum dibangun.**
+**TCS Control Center: cangkang UI dan kontrak API tersedia di branch pengembangan; Remote Agent dan uji perangkat belum selesai.**  
+**Identitas, pengetahuan TCS, memori belajar, API layanan penuh, dan publikasi: belum dibangun.**
 
 Tahap kerja berikutnya yang diprioritaskan adalah **TCS Control Center**, kemudian layanan model lokal yang stabil dan TCS Knowledge Engine. Seluruh perkembangan berikutnya harus memperbarui dokumen ini agar repo tetap menjadi catatan sumber utama proyek.
+
+
+## Catatan perkembangan terbaru — TCS Control Center
+
+Tanggal pembaruan: 26 November 2026.
+
+- Repository telah diperiksa sebelum perubahan; proyek lain seperti TCS-ENGINE tidak digunakan karena memiliki tujuan dan kode sendiri.
+- Branch pengembangan dibuat: `feature/tcs-control-center`, berangkat dari `main` pada commit dokumentasi Choco AI.
+- Berkas yang ditambahkan di branch:
+  - `control-center/index.html` — kerangka antarmuka dashboard.
+  - `control-center/styles.css` — gaya responsif gelap dengan aksen champagne gold.
+  - `control-center/app.js` — klien awal untuk status, koneksi, daftar window, dan aksi allowlist.
+  - `docs/CONTROL-CENTER-API.md` — kontrak agent, endpoint, pola SSH tunnel, dan aturan keamanan.
+- Dashboard mengasumsikan agent lokal di loopback Toshiba port 8765 melalui SSH tunnel. Agent belum dibuat; karena itu tombol aksi nonaktif dan dashboard belum boleh dianggap sebagai aplikasi operasional.
+- API yang direncanakan tidak menyediakan eksekusi shell bebas. Remote Agent harus berjalan pada sesi desktop interaktif ASUS karena sesi SSH tidak dapat mengelola semua jendela GUI secara langsung.
+- Token agent, alamat jaringan privat, password, dan kredensial tidak dimasukkan ke GitHub.
+
+**Langkah berikutnya:** implementasi dan pengujian TCS Remote Agent Windows, lalu skrip pembuka tunnel di Toshiba. Setelah kontrol sistem dasar teruji, sambungkan `llama-server` dan lanjut ke TCS Identity, Scope Guard, serta Knowledge Engine.
